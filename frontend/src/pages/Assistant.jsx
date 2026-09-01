@@ -43,6 +43,14 @@ export default function Assistant() {
       const r = await api.post("/chat", { message: text, session_id: sessionId });
       setSessionId(r.data.session_id);
       setMessages((m) => [...m, { role: "assistant", text: r.data.reply }]);
+      const actions = r.data.actions || [];
+      if (actions.length > 0) {
+        const ok = actions.filter(a => a.result?.ok).length;
+        if (ok > 0) {
+          // notify other views via storage event
+          window.dispatchEvent(new CustomEvent("studyflow:plan-changed"));
+        }
+      }
     } catch (e) {
       setMessages((m) => [...m, { role: "assistant", text: "Errore nel rispondere. Riprova." }]);
     } finally { setBusy(false); }

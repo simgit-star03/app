@@ -9,6 +9,7 @@ export const BLOCK_STYLES = {
   Esercizi: "bg-emerald-50 text-emerald-800 border-emerald-200",
   Ripasso: "bg-amber-50 text-amber-900 border-amber-200",
   Simulazione: "bg-purple-50 text-purple-800 border-purple-200",
+  Altro: "bg-slate-100 text-slate-700 border-slate-200",
 };
 
 export const STATUS_STYLES = {

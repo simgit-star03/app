@@ -1,0 +1,55 @@
+{
+  "summary": "Iteration 2 full-stack verification of StudyFlow. Backend: 39 pytest tests written and all passing (task POST/PATCH/PUT/DELETE, overlap + after-exam-date guards, partial_pct 25/50/75 persistence and exact progress math, completato/non_completato math, plan/generate quality (38 tasks, no overlaps, daily_hours cap, available_days respected, all dates <= exam_date), plan/replan preserving completato+parziale history, exam-date shrink deleting late tasks, auth isolation for user B on all task endpoints, AI chat tool-calling verified to actually mutate Mongo for clear_day / move_task / mark_task_status + chat auth isolation). Frontend: login, Home TaskRow (circle toggle, partial popover 25/50/75, X non_completato, pencil edit), TaskEditModal full edit + save/delete/cancel, persistence after F5, 'Sono rimasto indietro' replan without page refresh, /piano grouped 38 sessions with in-place edit + partial propagation, /progressi charts, AI Tutor chat with real DB mutation, and 375px mobile layout all verified working.",
+  "backend_issues": {
+    "critical": [],
+    "minor": [
+      {"endpoint": "POST /api/plan/generate", "issue": "Deletes ALL future 'pianificato' tasks including today's, so any concurrent request/session silently loses today's planned sessions. Surfaced as flaky test failures when the suite ran in parallel (pytest -n 2). Not user-visible in single-session use, but consider scoping the delete to date > today or warning the user."},
+      {"endpoint": "PUT /api/tasks/{id}", "issue": "actual_minutes is unconditionally overwritten with null when the field is omitted from the payload (frontend never sends it), so any previously stored actual_minutes is wiped. Use $set only for provided fields."}
+    ]
+  },
+  "frontend_issues": {
+    "ui_bugs": [
+      {"component": "AppShell floating action button (mobile)", "issue": "The round '+' FAB at bottom-right overlaps the 'Progresso di oggi' percentage value on Home at 375px width, hiding the number.", "selector": "button (FAB) vs [data-testid=\"today-progress-pct\"]", "priority": "LOW"},
+      {"component": "TaskEditModal", "issue": "'Elimina' performs an immediate irreversible DELETE with no confirmation dialog (all other destructive actions use AlertDialog).", "selector": "[data-testid=\"task-edit-delete\"]", "priority": "MEDIUM"}
+    ],
+    "integration_issues": [],
+    "design_issues": [
+      {"screen": "TaskEditModal", "issues": ["Data/Ora inizio use native browser <input type=date/time> pickers instead of the shadcn Calendar/time component used elsewhere - inconsistent look and locale-dependent (renders 09/01/2026 MM/DD/YYYY, ambiguous for an Italian-language app).", "DialogContent missing DialogDescription / aria-describedby -> React a11y warning logged in console on every open."]},
+      {"screen": "Progressi", "issues": ["Page does not subscribe to the 'studyflow:plan-changed' event (Home and Plan do), so it will show stale numbers if the AI mutates the plan while it is mounted."]}
+    ]
+  },
+  "test_report_links": [
+    "/app/backend/tests/conftest.py",
+    "/app/backend/tests/backend_test.py",
+    "/app/backend/tests/test_chat_tools.py",
+    "/app/test_reports/pytest/pytest_results.xml"
+  ],
+  "action_items": [
+    "Add a confirmation step before the Elimina action in TaskEditModal.",
+    "Fix mobile FAB overlapping the 'Progresso di oggi' percentage at 375px (add bottom padding to the Home container or move the FAB).",
+    "PUT /api/tasks/{id}: stop nulling actual_minutes when the field is not supplied.",
+    "Optional: replace native date/time inputs in TaskEditModal with the shadcn Calendar/time picker for consistency and IT locale.",
+    "Optional: add DialogDescription to TaskEditModal to clear the a11y console warning; subscribe Progressi to studyflow:plan-changed."
+  ],
+  "critical_code_review_comments": [
+    "server.py is 1127 lines - split into routers (auth, exams, tasks, plan, chat) plus a services/helpers module.",
+    "Overlap-detection logic is duplicated 4x (POST /tasks, PATCH /tasks, _dispatch_tutor_tool.move_task, _fallback_plan). Extract a single async _assert_no_overlap(user_id, day, start, dur, exclude_id) helper.",
+    "PATCH /api/tasks/{id} returns db.tasks.find_one({'id': task_id}) without user_id in the filter - harmless today because the 404 guard runs first, but it is an easy scoping regression; add user_id.",
+    "/api/chat swallows every LLM/tool exception into a generic Italian string, so real tool-dispatch failures are invisible to the client; return a flag or partial actions so the UI can distinguish 'AI down' from 'nothing to do'.",
+    "generate_plan/replan/replan_all repeat the same delete->recompute->generate->insert_many block; factor into one function."
+  ],
+  "updated_files": [
+    "/app/backend/tests/conftest.py",
+    "/app/backend/tests/backend_test.py",
+    "/app/backend/tests/test_chat_tools.py",
+    "/app/frontend/src/pages/Home.jsx",
+    "/app/frontend/src/components/studyflow/TaskEditModal.jsx"
+  ],
+  "success_rate": {"backend": "100%", "frontend": "95%"},
+  "seed_data_creation": "Created a throwaway signup user TEST_qa_<hex>@example.com (password Test1234!) per run for auth-isolation tests. Temporary demo tasks prefixed TEST_ are created and deleted by each test. Note: some demo tasks now carry QA topics (QA_EDITED_TOPIC / QA_PIANO_EDIT) and partial statuses from UI testing; re-running plan/generate cleans them up.",
+  "should_call_test_agent_after_fix": false,
+  "should_main_agent_self_test": true,
+  "test_credentials": "demo@studyflow.it / Demo1234!",
+  "context_for_next_testing_agent": "Backend suite lives in /app/backend/tests (conftest.py provides demo_client and other_client fixtures). IMPORTANT: run it with -n 0 (serial). pytest.ini forces -n 2 --dist loadscope, and under parallelism TestPlan's /plan/generate wipes today's 'pianificato' tasks that TestStatusAndProgress created, producing a false 404 failure. All 39 tests pass serially. AI tool-calling (clear_day, move_task, mark_task_status) is confirmed working end-to-end against the real LLM and mutates Mongo; chat tests take ~40s. Frontend testids: Home rows use prefix 'task-', /piano rows use prefix 'plan-task-' (task-row-{id}, task-toggle-{id}, task-partial-{id}, task-partial-{id}-{25|50|75}, task-notdone-{id}, task-edit-{id}); modal uses task-edit-exam/date/start/dur-{m}/block-{Name}/topic/save/delete/cancel; Home summary is [data-testid=today-summary] and [data-testid=today-progress-pct]. Mobile bottom nav uses nav-item-{home|esami|piano|progressi|profilo} (Tutor AI link has no matching nav-item-tutor testid).",
+  "rca_of_the_issue": "No functional defect found in the iteration-2 scope. The single test failure observed initially was an environment artifact: pytest.ini's forced xdist parallelism let /plan/generate (which deletes all future 'pianificato' tasks, today included) run concurrently with the partial-status tests, deleting their fixture task and yielding 'Task non trovato' 404. Re-running serially gives 39/39. A second initial failure ('_id leaked') was a bad assertion in my own test (substring match hit 'user_id'); fixed to inspect dict keys."
+}

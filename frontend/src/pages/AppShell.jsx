@@ -69,7 +69,7 @@ export default function AppShell() {
       </aside>
 
       <main className="md:ml-64 pb-24 md:pb-8 min-h-screen">
-        <div className="max-w-3xl mx-auto px-4 sm:px-6 py-4 sm:py-8">
+        <div className="max-w-3xl mx-auto px-4 sm:px-6 py-4 sm:py-8 pb-32 md:pb-8">
           <Outlet />
         </div>
       </main>
