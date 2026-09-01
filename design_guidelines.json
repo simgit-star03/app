@@ -1,0 +1,222 @@
+{
+  "project_name": "StudyFlow",
+  "tagline": "Il tuo piano di studio. Sempre al passo con te.",
+  "language": "Italian (it-IT)",
+  "app_type": "mobile_web_app",
+  "theme": "Chiaro e Minimale (Warm Light Minimal)",
+  "emotional_archetype": "Organic & Scholarly Precision (Notion x Linear x Duolingo Polish)",
+  "design_principles": [
+    "Mobile-First & Tactile Responsiveness: Designed with thumb zones in mind, crisp tactile feedback, smooth sheet transitions, and responsive grid layouts for desktop.",
+    "Calm Cognitive Clarity: Pure light warm canvas (#FAFA3 / #F8FAFC) with elevated white card surfaces (#FFFFFF), structured borders, and intentional accent color signals.",
+    "Action-Oriented Academic Direction: High visibility countdowns, exam urgency badges, progress meters, and single-tap adaptive replanning ('Sono rimasto indietro').",
+    "Italian University Native Context: First-class handling of CFU, Appelli, Sessioni d'esame (Invernale, Estiva, Autunnale), Voto target (18-30L), and Teoria vs Esercizi vs Ripasso study blocks."
+  ],
+  "typography": {
+    "font_pairing_strategy": "Modern Scholarly Sans + Technical Mono",
+    "font_families": {
+      "heading": "'Plus Jakarta Sans', 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif",
+      "body": "'Inter', 'DM Sans', system-ui, -apple-system, sans-serif",
+      "mono": "'JetBrains Mono', 'Fira Code', monospace"
+    },
+    "hierarchy": {
+      "h1_hero": "text-3xl sm:text-4xl font-extrabold tracking-tight text-slate-900 leading-tight",
+      "h2_section": "text-xl sm:text-2xl font-bold tracking-tight text-slate-800",
+      "h3_card_title": "text-base sm:text-lg font-semibold text-slate-900",
+      "body_text": "text-sm sm:text-base text-slate-600 leading-relaxed",
+      "small_label": "text-xs font-medium uppercase tracking-wider text-slate-500",
+      "badge_text": "text-xs font-semibold px-2.5 py-1 rounded-full",
+      "time_block_mono": "font-mono text-xs sm:text-sm font-semibold tracking-wide"
+    }
+  },
+  "colors": {
+    "background_canvas": "#F8FAFC",
+    "background_card": "#FFFFFF",
+    "background_subtle": "#F1F5F9",
+    "text_primary": "#0F172A",
+    "text_secondary": "#475569",
+    "text_muted": "#94A3B8",
+    "border_subtle": "#E2E8F0",
+    "border_highlight": "#CBD5E1",
+    "brand_primary": {
+      "default": "#4F46E5",
+      "hover": "#4338CA",
+      "light": "#EEF2FF",
+      "border": "#C7D2FE",
+      "foreground": "#FFFFFF"
+    },
+    "progress_emerald": {
+      "default": "#10B981",
+      "light": "#ECFDF5",
+      "border": "#A7F3D0",
+      "text": "#047857"
+    },
+    "streak_amber": {
+      "default": "#F59E0B",
+      "light": "#FFFBEB",
+      "border": "#FDE68A",
+      "text": "#B45309"
+    },
+    "alert_rose": {
+      "default": "#F43F5E",
+      "light": "#FFF1F2",
+      "border": "#FECDD3",
+      "text": "#BE123C"
+    },
+    "difficulty_levels": {
+      "facile": {
+        "bg": "bg-emerald-50 text-emerald-700 border-emerald-200",
+        "label": "Facile"
+      },
+      "medio": {
+        "bg": "bg-blue-50 text-blue-700 border-blue-200",
+        "label": "Medio"
+      },
+      "difficile": {
+        "bg": "bg-amber-50 text-amber-800 border-amber-200",
+        "label": "Difficile"
+      },
+      "incubo": {
+        "bg": "bg-rose-50 text-rose-700 border-rose-200",
+        "label": "Molto Impegnativo"
+      }
+    },
+    "study_block_types": {
+      "teoria": "bg-indigo-50/80 text-indigo-900 border-indigo-200",
+      "esercizi": "bg-emerald-50/80 text-emerald-900 border-emerald-200",
+      "ripasso": "bg-amber-50/80 text-amber-900 border-amber-200",
+      "simulazione": "bg-purple-50/80 text-purple-900 border-purple-200"
+    }
+  },
+  "layout_and_navigation": {
+    "mobile_first_container": "max-w-md md:max-w-5xl lg:max-w-7xl mx-auto px-4 sm:px-6 py-4 pb-24 md:pb-8",
+    "bottom_nav": {
+      "desktop_hidden": true,
+      "mobile_fixed": true,
+      "classes": "fixed bottom-0 left-0 right-0 z-40 bg-white/90 backdrop-blur-md border-t border-slate-200 px-3 py-2 flex justify-around items-center shadow-lg md:hidden",
+      "items": [
+        {"id": "home", "label": "Home", "icon": "Home"},
+        {"id": "esami", "label": "Esami", "icon": "BookOpen"},
+        {"id": "piano", "label": "Piano", "icon": "Calendar"},
+        {"id": "progressi", "label": "Progressi", "icon": "BarChart3"},
+        {"id": "assistant", "label": "Tutor AI", "icon": "Sparkles"},
+        {"id": "profilo", "label": "Profilo", "icon": "User"}
+      ]
+    },
+    "desktop_sidebar": {
+      "mobile_hidden": true,
+      "desktop_visible": true,
+      "classes": "hidden md:flex flex-col w-64 fixed left-0 top-0 bottom-0 bg-white border-r border-slate-200 p-5 z-30"
+    },
+    "fab_button": {
+      "position": "fixed bottom-20 right-5 md:bottom-8 md:right-8 z-50",
+      "style": "bg-indigo-600 hover:bg-indigo-700 text-white p-4 rounded-full shadow-xl hover:scale-105 active:scale-95 transition-all flex items-center justify-center gap-2 font-semibold"
+    }
+  },
+  "key_features_ui_specifications": {
+    "landing_and_auth": {
+      "tagline_display": "Il tuo piano di studio. Sempre al passo con te.",
+      "hero_card": "Warm welcoming onboarding call-to-action with instant preview mode (Try without account option).",
+      "auth_tabs": "Login and registrazione tabs using Radix Tabs / Shadcn Tabs."
+    },
+    "onboarding_flow": {
+      "steps": [
+        "Passo 1: Dati Universitari (Nome, Università, Corso di Laurea, Anno)",
+        "Passo 2: Disponibilità Oraria (Ore giornaliere, Giorni liberi, Fasce orarie preferite)",
+        "Passo 3: Obiettivo Laurea e Media Target (es. Voto desiderato 110L / Media 28)",
+        "Passo 4: Primo Esame (Nome esame, Data, CFU, Livello preparazione)"
+      ],
+      "stepper_ui": "Clean horizontal progress dots with step completion checkmarks."
+    },
+    "home_dashboard": {
+      "greeting": "Ciao, [Nome]! 👋 Ecco la tua scheda di studio per oggi.",
+      "next_exam_card": "Prominent banner displaying days remaining to closest exam, CFU weight, target progress ring, and 'Pianifica Ora'.",
+      "today_study_blocks": "Interactive task items with checkboxes (09:00 - 10:30 → Teoria, 11:00 - 12:30 → Esercizi) + timer mode.",
+      "fell_behind_trigger": "'Sono rimasto indietro' prominent action button with warm alert icon. Opens AI adaptive re-planner sheet."
+    },
+    "adaptive_replanner_modal": {
+      "title": "Ricalcola Piano di Studio AI 🤖⚡",
+      "description": "Nessun problema! L'algoritmo riallinea automaticamente i tuoi blocchi di studio mantenendo l'obiettivo finale.",
+      "options": [
+        "Ho saltato lo studio di oggi",
+        "Sono indietro di 2-3 giorni",
+        "Voglio ridistribuire le ore nel weekend",
+        "Cambia priorità degli esami"
+      ],
+      "cta": "Applica Nuovo Piano Adattivo"
+    },
+    "i_miei_esami": {
+      "card_layout": "Grid of rounded cards showing: Nome Esame, CFU badge, Data Appello, Giorni rimanenti, Barra di progresso %, Livello difficoltà pill, Accordo argomenti svolti.",
+      "exam_actions": "Aggiungi nuovo esame, Modifica, Elimina, Visualizza Dettaglio Programma."
+    },
+    "piano_di_studio": {
+      "views": "Vista Giornaliera (Timeblocks) e Vista Settimanale (Calendar Grid).",
+      "time_block_card": "Card with start-end time badge, activity category icon (Teoria/Esercizi/Ripasso), topic detail, and status toggle (Completato, In Corso, Da Fare)."
+    },
+    "progressi": {
+      "charts": [
+        "Ore pianificate vs completate questa settimana (Bar chart)",
+        "Avanzamento percentuale per ciascun esame (Horizontal progress bars)",
+        "Distribuzione ore per materia (Pie/Donut chart)"
+      ],
+      "stats_cards": "Ore totali studiate, Serie di giorni consecutivi (Streak 🔥), Esami superati."
+    },
+    "ai_assistant": {
+      "title": "Tutor di Studio AI 💬",
+      "prompts_suggestions": [
+        "Come posso organizzare il ripasso per Diritto Privato?",
+        "Spiegami la differenza tra le tipologie di appelli",
+        "Crea una scaletta di studio per 30 giorni",
+        "Dammi tecniche per la memorizzazione di formule"
+      ],
+      "chat_interface": "Real-time mock/backend connected chat interface with clean message bubbles and instant action suggestions."
+    }
+  },
+  "image_urls": [
+    {
+      "category": "abstract_textures",
+      "url": "https://images.unsplash.com/photo-1604782666037-3c63d50052db?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxOTF8MHwxfHNlYXJjaHwxfHxtb2Rlcm4lMjBtaW5pbWFsJTIwYWJzdHJhY3QlMjBvcmdhbmljJTIwY2VyYW1pYyUyMHN0dWR5JTIwYmFja2dyb3VuZCUyMHRleHR1cmV8ZW58MHx8fHwxNzg4MjYyNjcxfDA&ixlib=rb-4.1.0&q=85",
+      "description": "Minimal clean organic ceramic texture for onboarding and landing visual background."
+    },
+    {
+      "category": "study_desk_minimal",
+      "url": "https://images.unsplash.com/photo-1517673132405-a56a62b18caf?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxNzV8MHwxfHNlYXJjaHwxfHxzdHVkZW50JTIwc3R1ZHklMjBkZXNrJTIwYm9va3N8ZW58MHx8fHwxNzg4MjYyNjc5fDA&ixlib=rb-4.1.0&q=85",
+      "description": "Minimal pile of books and notepad for Italian study planner marketing / onboarding visual."
+    },
+    {
+      "category": "paper_texture_subtle",
+      "url": "https://images.unsplash.com/photo-1707059464734-9a6b4028891f?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxOTF8MHwxfHNlYXJjaHwzfHxtb2Rlcm4lMjBtaW5pbWFsJTIwYWJzdHJhY3QlMjBvcmdhbmljJTIwY2VyYW1pYyUyMHN0dWR5JTIwYmFja2dyb3VuZCUyMHRleHR1cmV8ZW58MHx8fHwxNzg4MjYyNjcxfDA&ixlib=rb-4.1.0&q=85",
+      "description": "Subtle curved paper wave background for card headers."
+    }
+  ],
+  "testing_and_accessibility": {
+    "data_testid_convention": "kebab-case, role-based identifiers on every button, input, card, menu item, progress bar, and modal",
+    "required_data_testids": [
+      "landing-signup-button",
+      "landing-login-button",
+      "onboarding-next-step-button",
+      "onboarding-complete-button",
+      "nav-item-home",
+      "nav-item-esami",
+      "nav-item-piano",
+      "nav-item-progressi",
+      "nav-item-assistant",
+      "nav-item-profilo",
+      "fab-add-exam-button",
+      "fell-behind-button",
+      "replan-confirm-button",
+      "exam-card-item",
+      "exam-add-modal-submit",
+      "study-block-checkbox",
+      "ai-chat-input-field",
+      "ai-chat-send-button"
+    ]
+  },
+  "instructions_to_main_agent": [
+    "Ensure all user-facing text is strictly in Italian.",
+    "Do NOT build a dark generic dashboard. Implement the Warm Light Minimal aesthetic ('Chiaro e minimale').",
+    "Ensure responsiveness: Bottom navigation on mobile devices (<768px), elegant sidebar on desktop (>=768px).",
+    "Include full data-testid attributes on all interactive elements.",
+    "Use Framer Motion for smooth tab transitions, modal entrances, and checkbox completions.",
+    "Implement mock persistence with localStorage so user exam inputs, time block completions, and AI chat messages persist across page reloads."
+  ]
+}

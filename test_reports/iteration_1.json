@@ -1,0 +1,34 @@
+{
+  "summary": "First-finish smoke tests on StudyFlow (backend + frontend) using demo account demo@studyflow.it. All critical backend endpoints and the main FE flow (landing -> demo login -> home -> esami -> piano -> progressi) work end-to-end. AI-powered plan generation and chat both return real Italian AI content via Claude/emergentintegrations. Auth isolation verified.",
+  "tested_scope": ["backend", "frontend", "auth", "integration"],
+  "passed": [
+    "POST /api/auth/signup -> 200, returns token + user (onboarded=false)",
+    "POST /api/auth/login demo creds -> 200, JWT token (188 chars)",
+    "GET /api/auth/me -> 200, returns Giulia/demo@studyflow.it/onboarded=true",
+    "GET /api/exams -> 3 seeded exams (Analisi Matematica II, Basi di Dati, Reti di Calcolatori)",
+    "POST /api/exams with exam_date+estimated_hours -> 200 creates exam",
+    "PUT /api/exams/{id} -> 200 updates fields",
+    "DELETE /api/exams/{id} -> 200",
+    "POST /api/plan/generate -> 200, returns tasks array with date/start_time/end_time/block_type/topic/status",
+    "POST /api/plan/replan with body -> 200, 33 regenerated tasks",
+    "GET /api/tasks/today -> 3 today tasks; PUT /api/tasks/{id} status=completato -> 200 {ok:true}",
+    "GET /api/progress -> week_planned_hours=22.5, daily array len=7, exams len=3",
+    "POST /api/chat -> Italian AI reply referencing user's exam (Analisi Matematica II, 12 giorni)",
+    "Auth isolation: new signup user sees 0 exams (does not see demo user's data)",
+    "FE Landing loads with StudyFlow brand + demo button; demo autofill+submit works",
+    "FE Home shows greeting 'Buongiorno Giulia', prossimo esame card (Analisi Matematica II, 12 giorni, 37%), today plan with tasks (Teoria/Esercizi/Ripasso), 'Sono rimasto indietro' button (data-testid=fell-behind-button) present",
+    "FE /esami lists all 3 exams with difficulty badges, days-remaining, prep progress bars, Modifica/Elimina, Aggiungi, and 'Genera piano di studio con AI' button",
+    "FE sidebar navigation nav-item-esami/piano/progressi routes correctly"
+  ],
+  "failed": [],
+  "warnings": [
+    {"area": "FE /progressi", "issue": "Recharts prints 'width(-1) height(-1)' console warning on initial mount (likely first-paint sizing race). Chart still renders after resize.", "priority": "LOW"}
+  ],
+  "action_items": [
+    "Optional: wrap Progress page BarChart in a container with explicit min-height to silence recharts sizing warning."
+  ],
+  "success_rate": {"backend": "100%", "frontend": "100%"},
+  "retest_needed": false,
+  "full_testing_deferred": true,
+  "notes": "Task PUT response is {ok:true} (not full task object) — FE reloads tasks after update so this is fine. Backend requires field names exam_date and estimated_hours (matches ExamModal.jsx). Replan endpoint requires a JSON body (FE sends {reason:...})."
+}
